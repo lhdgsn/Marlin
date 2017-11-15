@@ -3717,7 +3717,7 @@ inline void gcode_G40(){
 		if (i == 0){
 			current_position[Y_AXIS] = 275.5;
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = 197.5 - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER;//Move X and Z
+				current_position[X_AXIS] = 197.5;//Move X and Z
 			#else
 				current_position[X_AXIS] = 197.5 + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3735,7 +3735,7 @@ inline void gcode_G40(){
 			//current_position[X_AXIS]=109.5; current_position[E_AXIS]+=((197.5-109.5)*1.05*(current_position[Z_AXIS]*0.3284/(0.188*29.402)));
 			
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = 109.5 - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER;
+				current_position[X_AXIS] = 109.5;
 			#else
 				current_position[X_AXIS] = 109.5 + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3759,7 +3759,7 @@ inline void gcode_G40(){
 			
 			// move to start of first calibration line (in X)
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = mm_left_offset - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER;
+				current_position[X_AXIS] = mm_left_offset;
 			#else
 				current_position[X_AXIS] = mm_left_offset + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3779,7 +3779,7 @@ inline void gcode_G40(){
 		
 		// shift x coordinate by gap between calibration lines
 		#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-			current_position[X_AXIS] = mm_left_offset  - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER+ (mm_each_extrusion*i);
+			current_position[X_AXIS] = mm_left_offset + (mm_each_extrusion*i);
 		#else
 			current_position[X_AXIS] = mm_left_offset+(mm_each_extrusion*i) + X_OFFSET_CALIB_PROCEDURES;
 		#endif
@@ -3800,7 +3800,7 @@ inline void gcode_G40(){
 		// move over to start of next calibration line (except for last line)
 		if (i != NUM_LINES-1) {
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = mm_left_offset - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER + mm_each_extrusion*(i+1);
+				current_position[X_AXIS] = mm_left_offset + mm_each_extrusion*(i+1);
 			#else
 				current_position[X_AXIS] = mm_left_offset+(mm_each_extrusion*(i+1)) + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3852,7 +3852,7 @@ inline void gcode_G40(){
 		// first print outer perimeter before printing calibration lines
 		if (i == 0) { 			
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = 197.5 - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER;
+				current_position[X_AXIS] = 197.5;
 			#else
 				current_position[X_AXIS] =197.5 + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3875,7 +3875,7 @@ inline void gcode_G40(){
 			if(gif_processing_state == PROCESSING_ERROR) return;
 
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = 109.5 - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER;
+				current_position[X_AXIS] = 109.5;
 			#else
 				current_position[X_AXIS] = 109.5 + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3892,7 +3892,7 @@ inline void gcode_G40(){
 			// if(gif_processing_state == PROCESSING_ERROR) return;
 
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = mm_left_offset - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER+(mm_second_extruder[i]+(mm_each_extrusion*(i)));
+				current_position[X_AXIS] = mm_left_offset +(mm_second_extruder[i]+(mm_each_extrusion*(i)));
 			#else
 				current_position[X_AXIS] = mm_left_offset+(mm_second_extruder[i]+(mm_each_extrusion*(i))) + X_OFFSET_CALIB_PROCEDURES;
 			#endif
@@ -3913,7 +3913,7 @@ inline void gcode_G40(){
 		current_position[Y_AXIS] = mm_right_lines_x_up; 
 		
 		#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-			current_position[X_AXIS] = mm_left_offset - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER+(mm_second_extruder[i]+(mm_each_extrusion*(i)));
+			current_position[X_AXIS] = mm_left_offset +(mm_second_extruder[i]+(mm_each_extrusion*(i)));
 		#else
 			current_position[X_AXIS] = mm_left_offset+(mm_second_extruder[i]+(mm_each_extrusion*(i))) + X_OFFSET_CALIB_PROCEDURES;
 		#endif
@@ -3934,7 +3934,7 @@ inline void gcode_G40(){
 			current_position[Y_AXIS]= mm_right_lines_x_down;
 			 			
 			#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-				current_position[X_AXIS] = mm_left_offset - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER+(mm_second_extruder[i]+(mm_each_extrusion*(i+1)));
+				current_position[X_AXIS] = mm_left_offset +(mm_second_extruder[i]+(mm_each_extrusion*(i+1)));
 			#else
 				current_position[X_AXIS] = mm_left_offset+(mm_second_extruder[i]+(mm_each_extrusion*(i+1))) + X_OFFSET_CALIB_PROCEDURES;
 			#endif
