@@ -337,6 +337,9 @@ bool home_made = false;
 bool home_made_Z = false;
 bool doblocking = false;
 bool saved_doblocking = false;
+
+bool using_probe = false; // global variable declared in Marlin.h (LH, 16/11/2017)
+
 float homing_feedrate[] = HOMING_FEEDRATE;
 bool axis_relative_modes[] = AXIS_RELATIVE_MODES;
 int feedmultiply=100; //100->1 200->2
@@ -2873,38 +2876,31 @@ int aprox (float voltes)
 
 static void run_z_probe() {
 	plan_bed_level_matrix.set_to_identity();
-	
-	// correct for X axis offset (LH, 15/11/2017)
-	float dX;
-	if(active_extruder == LEFT_EXTRUDER)
-		dX = -X_AXIS_CORRECT;
-	else if(active_extruder == RIGHT_EXTRUDER)
-		dX = X_AXIS_CORRECT;
 
 	// move up until you find the bed
 	float zPosition = -10;
-	plan_buffer_line(current_position[X_AXIS]+dX, current_position[Y_AXIS], zPosition, current_position[E_AXIS], 8, active_extruder);
+	plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], zPosition, current_position[E_AXIS], 8, active_extruder);
 	st_synchronize();
 	// we have to let the planner know where we are right now as it is not where we said to go.
 	zPosition = st_get_position_mm(Z_AXIS);
 	
-	plan_set_position(current_position[X_AXIS]+dX, current_position[Y_AXIS], zPosition, current_position[E_AXIS]);
+	plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], zPosition, current_position[E_AXIS]);
 
 	// move down the retract distance
 	
 	zPosition += (home_retract_mm(Z_AXIS));
-	plan_buffer_line(current_position[X_AXIS]+dX, current_position[Y_AXIS], zPosition, current_position[E_AXIS], 4, active_extruder);
+	plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], zPosition, current_position[E_AXIS], 4, active_extruder);
 	st_synchronize();
 
 	// move back up slowly to find bed
 	
 	zPosition -= home_retract_mm(Z_AXIS) * 2;
-	plan_buffer_line(current_position[X_AXIS]+dX, current_position[Y_AXIS], zPosition, current_position[E_AXIS], 4, active_extruder);
+	plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], zPosition, current_position[E_AXIS], 4, active_extruder);
 	st_synchronize();
 
 	current_position[Z_AXIS] = st_get_position_mm(Z_AXIS);
 	// make sure the planner knows where we are as it may be a bit different than we last said to move to
-	plan_set_position(current_position[X_AXIS]+dX, current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+	plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
 }
 
 static void do_blocking_move_to(float x, float y, float z) {
@@ -2977,10 +2973,10 @@ static float probe_pt(float x, float y, float z_before) {
 	// move to right place
 	// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
 	if(active_extruder == LEFT_EXTRUDER){
-		do_blocking_move_to(current_position[X_AXIS] + X_AXIS_CORRECT, current_position[Y_AXIS], z_before);
+		do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], z_before);
 	}
 	else if(active_extruder == RIGHT_EXTRUDER){
-		do_blocking_move_to(current_position[X_AXIS] - X_AXIS_CORRECT, current_position[Y_AXIS], z_before);
+		do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], z_before);
 	}
 	else
 		do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], z_before);
@@ -2989,11 +2985,11 @@ static float probe_pt(float x, float y, float z_before) {
 	#ifdef Z_SIGMA_AUTOLEVEL
 	if (active_extruder == LEFT_EXTRUDER) { //DEFAULT ACTIVE EXTRUDER (left)
 		// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
-		do_blocking_move_to(x - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER + X_AXIS_CORRECT, y - Y_SIGMA_PROBE_OFFSET_FROM_EXTRUDER, z_before);
+		do_blocking_move_to(x - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER, y - Y_SIGMA_PROBE_OFFSET_FROM_EXTRUDER, z_before);
 	}
 	else {
 		// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
-		do_blocking_move_to(x - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER - X_AXIS_CORRECT, y - Y_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER, z_before);
+		do_blocking_move_to(x - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER, y - Y_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER, z_before);
 	}
 	#else
 	do_blocking_move_to(x - X_PROBE_OFFSET_FROM_EXTRUDER, y - Y_PROBE_OFFSET_FROM_EXTRUDER, z_before);
@@ -3692,7 +3688,8 @@ inline void gcode_G40(){
 	gif_processing_state = PROCESSING_TEST;
 	
 	// subtract from left extruder position, add to right extruder position
-	float dX = 27;
+	// set to zero temporarily to move offset more permanently into plan_buffer_line. dX = 27 corrects offset.
+	float dX = 0;
 
 	current_position[Z_AXIS]=2;
 	plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], 15 , active_extruder);
@@ -4677,10 +4674,10 @@ inline void gcode_G33(){
 	*/
 }
 inline void gcode_G34(){
-	
-	
 	#ifdef ENABLE_AUTO_BED_LEVELING
 	#ifdef SIGMA_BED_AUTOCALIB
+
+	using_probe = true; // (LH, 15/11/2017)
 
 	saved_feedrate = homing_feedrate[Z_AXIS];
 	homing_feedrate[Z_AXIS]= CALIB_FEEDRATE_ZAXIS;
@@ -4746,9 +4743,9 @@ inline void gcode_G34(){
 	SERIAL_PROTOCOLPGM("Zvalue after home:");
 	Serial.println(current_position[Z_AXIS]);
 
-	float z_at_pt_1 = probe_pt(X_SIGMA_PROBE_1_LEFT_EXTR,Y_SIGMA_PROBE_1_LEFT_EXTR, Z_RAISE_BEFORE_PROBING);
-	float z_at_pt_2 = probe_pt(X_SIGMA_PROBE_2_LEFT_EXTR,Y_SIGMA_PROBE_2_LEFT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
-	float z_at_pt_3 = probe_pt(X_SIGMA_PROBE_3_LEFT_EXTR,Y_SIGMA_PROBE_3_LEFT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
+	float z_at_pt_1 = probe_pt(X_SIGMA_PROBE_1_LEFT_EXTR, Y_SIGMA_PROBE_1_LEFT_EXTR, Z_RAISE_BEFORE_PROBING);
+	float z_at_pt_2 = probe_pt(X_SIGMA_PROBE_2_LEFT_EXTR, Y_SIGMA_PROBE_2_LEFT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
+	float z_at_pt_3 = probe_pt(X_SIGMA_PROBE_3_LEFT_EXTR, Y_SIGMA_PROBE_3_LEFT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
 	
 	// raise left nozzle after probe and home X
 	current_position[Z_AXIS] += Z_RAISE_BETWEEN_PROBINGS;
@@ -4767,9 +4764,9 @@ inline void gcode_G34(){
 	current_position[X_AXIS]-=10;
 	plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS],current_position[E_AXIS]);
 
-	float z2_at_pt_3 = probe_pt(X_SIGMA_PROBE_3_RIGHT_EXTR,Y_SIGMA_PROBE_3_RIGHT_EXTR, Z_RAISE_BEFORE_PROBING);
-	float z2_at_pt_2 = probe_pt(X_SIGMA_PROBE_2_RIGHT_EXTR,Y_SIGMA_PROBE_2_RIGHT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
-	float z2_at_pt_1 = probe_pt(X_SIGMA_PROBE_1_RIGHT_EXTR,Y_SIGMA_PROBE_1_RIGHT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
+	float z2_at_pt_3 = probe_pt(X_SIGMA_PROBE_3_RIGHT_EXTR, Y_SIGMA_PROBE_3_RIGHT_EXTR, Z_RAISE_BEFORE_PROBING);
+	float z2_at_pt_2 = probe_pt(X_SIGMA_PROBE_2_RIGHT_EXTR, Y_SIGMA_PROBE_2_RIGHT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
+	float z2_at_pt_1 = probe_pt(X_SIGMA_PROBE_1_RIGHT_EXTR, Y_SIGMA_PROBE_1_RIGHT_EXTR, current_position[Z_AXIS] + Z_RAISE_BEFORE_PROBING);
 	
 	current_position[Z_AXIS] += Z_RAISE_BETWEEN_PROBINGS;
 	plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], 15, RIGHT_EXTRUDER);
@@ -5028,6 +5025,8 @@ inline void gcode_G34(){
 	}
 	homing_feedrate[Z_AXIS]= saved_feedrate;
 	
+	using_probe = false; // (LH, 16/11/2017)
+
 	#endif //SIGMA_BED_AUTOCALIB
 	#endif // ENABLE_AUTO_BED_LEVELING
 

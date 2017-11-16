@@ -567,12 +567,16 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
 	#ifdef DEFAULT_HYSTERESIS
 	//hysteresis.InsertCorrection(x,y,z,e);
 	
-  // // correct for extruder offsets (LH, 15/11/2017)
-  // // but make sure it doesn't try to run into endstops
-  // if(extruder == LEFT_EXTRUDER && x > X_AXIS_CORRECT)
-  //   x -= X_AXIS_CORRECT;
-  // else if(extruder == RIGHT_EXTRUDER && x < (X_MAX_POS - X_AXIS_CORRECT))
-  //   x += X_AXIS_CORRECT;
+  // correct for extruder offsets in X axis (LH, 15/11/2017)
+  // but make sure it doesn't try to run into endstops
+  // only offsets when using nozzle (indicated by using_probe)
+  // X_AXIS_CORRECT defined in Configuration.h
+  if(!using_probe){
+    if(extruder == LEFT_EXTRUDER && x > X_AXIS_CORRECT)
+      x -= X_AXIS_CORRECT;
+    else if(extruder == RIGHT_EXTRUDER && x < (X_MAX_POS - X_AXIS_CORRECT))
+      x += X_AXIS_CORRECT;
+  }
 
 	float fixed_pos[NUM_AXIS];
 	float destination[NUM_AXIS] = {x,y,z,e};
