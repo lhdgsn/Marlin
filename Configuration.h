@@ -501,7 +501,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 #if MOTHERBOARD == BCN3D_BOARD
 	#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
-		#define X_MAX_POS 256 // 305.6 (LH, 08/11/2017) //312 //Distance between extruders
+		#define X_MAX_POS 256 // (LH, 14/11/2017) //312 //Distance between extruders
 	#endif
 	#if BCN3D_PRINTER == BCN3D_SIGMAX_PRINTER
 		#define X_MAX_POS 503.9//312 //Distance between extruders
@@ -759,9 +759,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 	#endif
 	
 	#if MOTHERBOARD == BCN3D_BOARD
-		#define X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER  14//17 (EB, 16/6/2017)//20
+		#define X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER  14 //17 (EB, 16/6/2017)//20
 		#define Y_SIGMA_PROBE_OFFSET_FROM_EXTRUDER	43// (EB, 16/6/2017)
 		#define Z_SIGMA_PROBE_OFFSET_FROM_EXTRUDER  2.7//2.80//3.4 //It is negative, it is compensated
+
+		#define X_AXIS_CORRECT 10 // used in planner.cpp/plan_buffer_line() to account for nozzle offset from sled center (LH, 15/11/2017)
 	#endif
 	
 	#define X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER	-14 // -13.5 (LH 16/10/2017)
@@ -782,15 +784,15 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 		//#define Y_SIGMA_PROBE_3_LEFT_EXTR 10
 	
 		//Right extruder probe point
-		#define X_SIGMA_PROBE_1_RIGHT_EXTR 265 // 254 (LH 17/10/2017)
+		#define X_SIGMA_PROBE_1_RIGHT_EXTR 290 // 254 (LH 17/10/2017)
 		#define Y_SIGMA_PROBE_1_RIGHT_EXTR 265
 		//#define Y_SIGMA_PROBE_1_RIGHT_EXTR 275
 	
-		#define X_SIGMA_PROBE_2_RIGHT_EXTR 265 // 254 (LH 17/10/2017)
+		#define X_SIGMA_PROBE_2_RIGHT_EXTR 290 // 254 (LH 17/10/2017)
 		#define Y_SIGMA_PROBE_2_RIGHT_EXTR 26 //(EB, 20/6/2017) 15
 		//#define Y_SIGMA_PROBE_2_RIGHT_EXTR 10
 	
-		#define X_SIGMA_PROBE_3_RIGHT_EXTR 85 //(EB, 20/6/2017) 55
+		#define X_SIGMA_PROBE_3_RIGHT_EXTR 100 //(EB, 20/6/2017) 55
 		#define Y_SIGMA_PROBE_3_RIGHT_EXTR 26 //(EB, 20/6/2017) 15
 		//#define Y_SIGMA_PROBE_3_RIGHT_EXTR 10
 	#endif
@@ -899,7 +901,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //Manual homing switch locations:
 // For deltabots this means top and center of the Cartesian print volume.
 //#define MANUAL_X_HOME_POS -32
-#define MANUAL_X_HOME_POS 0//-52.5 //(EB, 16/6/2017)
+#define MANUAL_X_HOME_POS 10 //-52.5 //(EB, 16/6/2017)
 #define MANUAL_Y_HOME_POS Y_MAX_POS
 #define MANUAL_Z_HOME_POS Z_MIN_POS
 
