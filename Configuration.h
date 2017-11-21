@@ -763,7 +763,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 		#define Y_SIGMA_PROBE_OFFSET_FROM_EXTRUDER	43// (EB, 16/6/2017)
 		#define Z_SIGMA_PROBE_OFFSET_FROM_EXTRUDER  2.7//2.80//3.4 //It is negative, it is compensated
 
-		#define X_AXIS_CORRECT 27 // used in planner.cpp/plan_buffer_line() to account for nozzle offset from sled center (LH, 15/11/2017)
+		#define X_AXIS_CORRECT 25.9 // used in planner.cpp/plan_buffer_line() to account for nozzle offset from sled center (LH, 15/11/2017)
 	#endif
 	
 	#define X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER	-14 // -13.5 (LH 16/10/2017)
@@ -784,11 +784,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 		//#define Y_SIGMA_PROBE_3_LEFT_EXTR 10
 	
 		//Right extruder probe point
-		#define X_SIGMA_PROBE_1_RIGHT_EXTR 260 // 254 (LH 17/10/2017)
+		#define X_SIGMA_PROBE_1_RIGHT_EXTR 268 // 254 (LH 17/10/2017)
 		#define Y_SIGMA_PROBE_1_RIGHT_EXTR 265
 		//#define Y_SIGMA_PROBE_1_RIGHT_EXTR 275
 	
-		#define X_SIGMA_PROBE_2_RIGHT_EXTR 260 // 254 (LH 17/10/2017)
+		#define X_SIGMA_PROBE_2_RIGHT_EXTR 268 // 254 (LH 17/10/2017)
 		#define Y_SIGMA_PROBE_2_RIGHT_EXTR 26 //(EB, 20/6/2017) 15
 		//#define Y_SIGMA_PROBE_2_RIGHT_EXTR 10
 	
