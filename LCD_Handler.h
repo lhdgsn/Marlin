@@ -3706,7 +3706,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.5;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.0; // + 0.5; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3725,7 +3725,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.5;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.0; // + 0.5; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3754,7 +3754,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.4;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.1; // + 0.4; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3773,7 +3773,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.4;
+								float calculus = extruder_offset[Y_AXIS][1] + 1.1; // + 0.4; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3802,7 +3802,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.3;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.2; // + 0.3; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3821,7 +3821,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.3;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.2; // + 0.3; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3849,7 +3849,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.2;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.3; // + 0.2; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3868,7 +3868,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.2;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.3; // + 0.2; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3896,7 +3896,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.1;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.4; // + 0.1; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3915,7 +3915,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] + 0.1;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.4; // + 0.1; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3943,7 +3943,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1];
+								float calculus = extruder_offset[Y_AXIS][1] - 1.5; // - 0; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3962,7 +3962,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1];
+								float calculus = extruder_offset[Y_AXIS][1] - 1.5; // - 0; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -3990,7 +3990,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.1;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.6; // - 0.1; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4009,7 +4009,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.1;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.6; // - 0.1; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4037,7 +4037,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.2;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.7; // - 0.2; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4056,7 +4056,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.2;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.7; // - 0.2; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4083,8 +4083,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.3;
-								SERIAL_PROTOCOLPGM("Calculus:  ");
+								float calculus = extruder_offset[Y_AXIS][1] - 1.8; // - 0.3; (LH, 21/11/2017)
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
 								//sprintf_P(buffer, PSTR("M218 T1 X%s"), String(calculus));
@@ -4102,7 +4101,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.3;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.8; // - 0.3; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4129,7 +4128,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								gif_processing_state = PROCESSING_BED_SUCCESS;
 								
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.4;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.9; // - 0.4; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
@@ -4148,7 +4147,7 @@ void myGenieEventHandler(void) //Handler for the do.Events() function
 								FLAG_First_Start_Wizard = 888;
 								Step_First_Start_Wizard = false;
 								//char buffer[30];
-								float calculus = extruder_offset[Y_AXIS][1] - 0.4;
+								float calculus = extruder_offset[Y_AXIS][1] - 1.9; // - 0.4; (LH, 21/11/2017)
 								SERIAL_PROTOCOLPGM("Calculus:  ");
 								Serial.println(calculus);
 								//sprintf(buffer, "M218 T1 X%f",calculus); //
