@@ -516,7 +516,7 @@ void check_axes_activity()
   //Rapduch
   #if MOTHERBOARD == BCN3D_BOARD
   
-	if(extruder_duplication_enabled || extruder_duplication_mirror_enabled){
+	if(extruder_duplication_enabled || extruder_duplication_mirror_enabled || (Flag_fanSpeed_mirror==1)){
 		analogWrite(FAN_PIN,tail_fan_speed);
 		analogWrite(FAN2_PIN,tail_fan_speed);
 	}
@@ -567,18 +567,6 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
 	#ifdef DEFAULT_HYSTERESIS
 	//hysteresis.InsertCorrection(x,y,z,e);
 	
-  // correct for extruder offsets in X axis (LH, 15/11/2017)
-  // but make sure it doesn't try to run into endstops
-  // only offsets when using nozzle (indicated by using_probe)
-  // X_AXIS_CORRECT defined in Configuration.h
-  if(!using_probe){
-    if(extruder == LEFT_EXTRUDER && x > X_AXIS_CORRECT)
-      x -= X_AXIS_CORRECT;
-    // commented out to use right extruder for plastic (LH, 10/01/2018)
-    // else if(extruder == RIGHT_EXTRUDER && x < (X_MAX_POS - X_AXIS_CORRECT))
-    //   x += X_AXIS_CORRECT;
-  }
-
 	float fixed_pos[NUM_AXIS];
 	float destination[NUM_AXIS] = {x,y,z,e};
 		
