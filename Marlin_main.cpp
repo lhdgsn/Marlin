@@ -2975,7 +2975,6 @@ static void retract_z_probe() {
 /// Probe bed height at position (x,y), returns the measured z value
 static float probe_pt(float x, float y, float z_before) {
 	// move to right place
-	// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
 	if(active_extruder == LEFT_EXTRUDER){
 		do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], z_before);
 	}
@@ -2988,11 +2987,9 @@ static float probe_pt(float x, float y, float z_before) {
 
 	#ifdef Z_SIGMA_AUTOLEVEL
 	if (active_extruder == LEFT_EXTRUDER) { //DEFAULT ACTIVE EXTRUDER (left)
-		// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
 		do_blocking_move_to(x - X_SIGMA_PROBE_OFFSET_FROM_EXTRUDER, y - Y_SIGMA_PROBE_OFFSET_FROM_EXTRUDER, z_before);
 	}
 	else {
-		// added X_AXIS_CORRECT to compensate for offset added in plan_buffer_line (LH, 15/11/2017)
 		do_blocking_move_to(x - X_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER, y - Y_SIGMA_SECOND_PROBE_OFFSET_FROM_EXTRUDER, z_before);
 	}
 	#else
@@ -3674,18 +3671,19 @@ inline void gcode_G28(){
 inline void gcode_G40(){
 	#ifdef EXTRUDER_CALIBRATION_WIZARD
 	SERIAL_PROTOCOLLNPGM("Starting X Calibration Wizard");
-	// (commented out (LH, 08/11/2017))
-	// // heat bed and hotends
+	// commented out left extruder parts (LH, 11/01/2018)
+	// heat bed and hotends
 	// setTargetHotend0(print_temp_l);
-	// setTargetHotend1(print_temp_r);
-	// setTargetBed(max(bed_temp_l,bed_temp_r)-5);
-	// doblocking = true;
-	// while (degHotend(LEFT_EXTRUDER)<(degTargetHotend(LEFT_EXTRUDER)-10) && degHotend(RIGHT_EXTRUDER)<(degTargetHotend(RIGHT_EXTRUDER)-10)&& degBed()<(max(bed_temp_l,bed_temp_r)-15)){ //Waiting to heat the extruder
-		
-	// 	manage_heater();
-	// 	touchscreen_update();
-	// 	if(gif_processing_state == PROCESSING_ERROR)return;
-	// }
+	setTargetHotend1(print_temp_r);
+	setTargetBed(max(bed_temp_l,bed_temp_r)-5);
+	doblocking = true;
+
+	while (degHotend(LEFT_EXTRUDER)<(degTargetHotend(LEFT_EXTRUDER)-10) && degHotend(RIGHT_EXTRUDER)<(degTargetHotend(RIGHT_EXTRUDER)-10)&& degBed()<(max(bed_temp_l,bed_temp_r)-15)){ //Waiting to heat the extruder
+		manage_heater();
+		touchscreen_update();
+		if(gif_processing_state == PROCESSING_ERROR)return;
+	}
+
 	gif_processing_state = PROCESSING_STOP;
 	touchscreen_update();
 	genie.WriteObject(GENIE_OBJ_FORM,FORM_INFO_Z_PRINT,0);
@@ -6992,7 +6990,7 @@ inline void gcode_M218(){
 		extruder_offset[Z_AXIS][tmp_extruder] = code_value();
 	}
 	#endif
-	SERIAL_ECHO_START
+	SERIAL_ECHO_START;
 	SERIAL_ECHOPGM(MSG_HOTEND_OFFSET);
 	for(tmp_extruder = 0; tmp_extruder < EXTRUDERS; tmp_extruder++)
 	{

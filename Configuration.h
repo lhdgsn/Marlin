@@ -477,28 +477,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-//32+222+28=282
-#if MOTHERBOARD == MEGATRONICS_V3
-#ifdef PROTO1
-	#define X_MAX_POS 317.9 //Distance between extruders
-	#define X_MIN_POS 0
-	#define Y_MAX_POS 280
-	#define Y_MIN_POS 0
-	#define Z_MAX_POS 150
-	#define Z_MIN_POS 0
-#endif
-
-#ifdef PROTO2
-	#define X_MAX_POS 318 //Distance between extruders
-	#define X_MIN_POS 0
-	#define Y_MAX_POS 280
-	#define Y_MIN_POS 0
-	#define Z_MAX_POS 150
-
-	#define Z_MIN_POS 0
-#endif
-#endif
-
 #if MOTHERBOARD == BCN3D_BOARD
 	#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
 		#define X_MAX_POS 256 // (LH, 14/11/2017) //312 //Distance between extruders
@@ -508,7 +486,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 	#endif
 	//#define X_MAX_POS 210 //Bed X
 	#define X_MIN_POS 0
-	#define Y_MAX_POS 285 //295 (EB, 16/6/2017)
+	#define Y_MAX_POS 285 // (LH, 11/01/2018)
 	#define Y_MIN_POS 0
 	#define Z_MAX_POS 210
 	#define Z_MIN_POS 0
@@ -760,28 +738,28 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 	#if BCN3D_PRINTER == BCN3D_SIGMA_PRINTER
 		//Left extruder probe point
 		#define X_SIGMA_PROBE_1_LEFT_EXTR 30 //(EB, 21/6/2017) 55
-		#define Y_SIGMA_PROBE_1_LEFT_EXTR 265
+		#define Y_SIGMA_PROBE_1_LEFT_EXTR 285
 		//#define Y_SIGMA_PROBE_1_LEFT_EXTR 275
 	
 		#define X_SIGMA_PROBE_2_LEFT_EXTR 30 //(EB, 21/6/2017) 55
-		#define Y_SIGMA_PROBE_2_LEFT_EXTR 26 //(EB, 23/6/2017) 10
+		#define Y_SIGMA_PROBE_2_LEFT_EXTR 35 //(EB, 23/6/2017) 10
 		//#define Y_SIGMA_PROBE_2_LEFT_EXTR 10
 	
 		#define X_SIGMA_PROBE_3_LEFT_EXTR 220 // 229 (LH 16/10/2017)
-		#define Y_SIGMA_PROBE_3_LEFT_EXTR 26 //(EB, 23/6/2017) 15
+		#define Y_SIGMA_PROBE_3_LEFT_EXTR 35 //(EB, 23/6/2017) 15
 		//#define Y_SIGMA_PROBE_3_LEFT_EXTR 10
 	
 		//Right extruder probe point
-		#define X_SIGMA_PROBE_1_RIGHT_EXTR 254 // 268 (LH 10/01/2018)
-		#define Y_SIGMA_PROBE_1_RIGHT_EXTR 265
+		#define X_SIGMA_PROBE_1_RIGHT_EXTR  244 // (LH 10/01/2018)
+		#define Y_SIGMA_PROBE_1_RIGHT_EXTR 280
 		//#define Y_SIGMA_PROBE_1_RIGHT_EXTR 275
 	
-		#define X_SIGMA_PROBE_2_RIGHT_EXTR 254 // 268 (LH 10/01/2018)
-		#define Y_SIGMA_PROBE_2_RIGHT_EXTR 10 // 26 (LH 10/01/2018)
+		#define X_SIGMA_PROBE_2_RIGHT_EXTR 244 // (LH 10/01/2018)
+		#define Y_SIGMA_PROBE_2_RIGHT_EXTR 5 // 10 // 26 (LH 10/01/2018)
 		//#define Y_SIGMA_PROBE_2_RIGHT_EXTR 10
 	
 		#define X_SIGMA_PROBE_3_RIGHT_EXTR 55 // 80 (LH 10/01/2018)
-		#define Y_SIGMA_PROBE_3_RIGHT_EXTR 10 // 26 (LH 10/01/2018)
+		#define Y_SIGMA_PROBE_3_RIGHT_EXTR 5 // 10 // 26 (LH 10/01/2018)
 		//#define Y_SIGMA_PROBE_3_RIGHT_EXTR 10
 	#endif
 #endif

@@ -574,7 +574,7 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
   if(!using_probe){
     if(extruder == LEFT_EXTRUDER && x > X_AXIS_CORRECT)
       x -= X_AXIS_CORRECT;
-    // commented out to use right extruder for plastic (LH, 10/01/2018)
+    // commented out so as to use right extruder for plastic (LH, 10/01/2018)
     // else if(extruder == RIGHT_EXTRUDER && x < (X_MAX_POS - X_AXIS_CORRECT))
     //   x += X_AXIS_CORRECT;
   }
