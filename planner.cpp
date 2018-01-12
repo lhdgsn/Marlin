@@ -676,8 +676,14 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
 	long target[4];
 	target[X_AXIS] = lround(fixed_pos[X_AXIS]*axis_steps_per_unit[X_AXIS]);
 	target[Y_AXIS] = lround(fixed_pos[Y_AXIS]*axis_steps_per_unit[Y_AXIS]);
-	target[Z_AXIS] = lround(fixed_pos[Z_AXIS]*axis_steps_per_unit[Z_AXIS]);     
-	target[E_AXIS] = lround(fixed_pos[E_AXIS]*axis_steps_per_unit[E_AXIS]);
+	target[Z_AXIS] = lround(fixed_pos[Z_AXIS]*axis_steps_per_unit[Z_AXIS]);
+    // enable two different resolutions for left/right extruders (LH 12/01/2018)
+    if(extruder == LEFT_EXTRUDER) // paste pump     
+		target[E_AXIS] = lround(fixed_pos[E_AXIS]*9000);
+    if(extruder == RIGHT_EXTRUDER) // plastic extruder
+		target[E_AXIS] = lround(fixed_pos[E_AXIS]*152);
+
+
 
 	#ifdef PREVENT_DANGEROUS_EXTRUDE
 		if(target[E_AXIS]!=position[E_AXIS])
@@ -845,7 +851,12 @@ void plan_buffer_line(const float &x, const float &y, const float &z, const floa
 		delta_mm[Y_AXIS] = ((target[X_AXIS]-position[X_AXIS]) - (target[Y_AXIS]-position[Y_AXIS]))/axis_steps_per_unit[Y_AXIS];
 	#endif
 	delta_mm[Z_AXIS] = (target[Z_AXIS]-position[Z_AXIS])/axis_steps_per_unit[Z_AXIS];
-	delta_mm[E_AXIS] = ((target[E_AXIS]-position[E_AXIS])/axis_steps_per_unit[E_AXIS])*volumetric_multiplier[active_extruder]*extrudemultiply/100.0;
+	// allow different extruder resolutions (LH 12/01/2018)
+	if(extruder == LEFT_EXTRUDER)
+		delta_mm[E_AXIS] = ((target[E_AXIS]-position[E_AXIS])/9000)*volumetric_multiplier[active_extruder]*extrudemultiply/100.0;
+	else if(extruder == RIGHT_EXTRUDER)
+		delta_mm[E_AXIS] = ((target[E_AXIS]-position[E_AXIS])/152)*volumetric_multiplier[active_extruder]*extrudemultiply/100.0;
+
 	if ( block->steps_x <=dropsegments && block->steps_y <=dropsegments && block->steps_z <=dropsegments )
 	{
 		block->millimeters = fabs(delta_mm[E_AXIS]);
@@ -1198,8 +1209,12 @@ void plan_set_position(const float &x, const float &y, const float &z, const flo
 
   position[X_AXIS] = lround(x*axis_steps_per_unit[X_AXIS]);
   position[Y_AXIS] = lround(y*axis_steps_per_unit[Y_AXIS]);
-  position[Z_AXIS] = lround(z*axis_steps_per_unit[Z_AXIS]);     
-  position[E_AXIS] = lround(e*axis_steps_per_unit[E_AXIS]);  
+  position[Z_AXIS] = lround(z*axis_steps_per_unit[Z_AXIS]);
+  // allow different extrusion resolutions (LH 12/01/2018)
+  if(extruder == LEFT_EXTRUDER)     
+  	position[E_AXIS] = lround(e*9000);
+  else if(extruder == RIGHT_EXTRUDER)
+  	position[E_AXIS] = lround(e*152);
   st_set_position(position[X_AXIS], position[Y_AXIS], position[Z_AXIS], position[E_AXIS]);
   previous_nominal_speed = 0.0; // Resets planner junction speeds. Assumes start from rest.
   previous_speed[0] = 0.0;
